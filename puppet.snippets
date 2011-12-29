@@ -49,7 +49,7 @@ snippet dir
 
 
 snippet Dir
-	File { mode => "0775", owner => "${1:user}" group => "${3:app}" }
+	File { mode => "0775", owner => "${1:user}" group => "${3:app}" } # Dir
 
 
 snippet file
@@ -68,7 +68,7 @@ snippet file
 
 
 snippet File
-	File { mode => "0644", owner => "${1:user}" group => "${3:app}" }
+	File { mode => "0644", owner => "${1:user}" group => "${3:app}" } # File
 
 
 snippet link
@@ -256,5 +256,5 @@ snippet define
 	}
 
 
-# vim:ft=snippet ts=4 sts=4 sw=4 noet nosta list foldlevel=9:
+# vim:ft=snippet.puppet ts=4 sts=4 sw=4 noet nosta list foldlevel=9:
 
