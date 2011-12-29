@@ -6,90 +6,97 @@
 
 
 snippet group
-    group { "${1}":
-        ensure     => present,
-        gid        => "${2}",
-    }
+	group { "${1}":
+	    ensure     => present,
+	    gid        => "${2}",
+	  # tag        => "app-app",
+	}
 
 snippet user
-    user { "${1}":
-        ensure     => present,
-        uid        => "${1}",
-        gid        => "${2}",
-        shell      => "/bin/${3:bash}",
-        home       => "/home/${1}",
-        comment    => "User ${1}"
-      # password   => '*',
-      # groups     => [ 'users','app','dba' ]
-        managehome => true,
-        allowdupe  => false
-    }
+	user { "${1}":
+	    ensure     => present,
+	    uid        => "${1}",
+	    gid        => "${2}",
+	    shell      => "/bin/${3:bash}",
+	    home       => "/home/${1}",
+	    comment    => "User ${1}"
+	  # password   => '*',
+	  # groups     => [ 'users','app','dba' ]
+	    managehome => true,
+	    allowdupe  => false
+	  # tag        => "app-app",
+	}
 
 snippet ssh
-    ssh_authorized_key {
-        ensure  => present,
-        user    => '${1}'
-        key     => '${2}'
-        name    => '${1:user@host}'
-    }
+	ssh_authorized_key {
+	    ensure  => present,
+	    user    => '${1}'
+	    key     => '${2}'
+	    name    => '${1:user@host}'
+	  # tag     => "app-app",
+	}
 
 snippet dir
-    file { "${1}":
-        ensure  => directory,
-        mode    => "0775",
-        owner   => "${2}"
-        group   => "${3}"
-      # path    => "",
-        recurse => false,
-    }
+	file { "${1}":
+	    ensure  => directory,
+	    mode    => "0775",
+	    owner   => "${2}"
+	    group   => "${3}"
+	  # path    => "",
+	    recurse => false,
+	  # tag     => "app-app",
+	}
 
 
 snippet Dir
-    File { mode => "0775", owner => "${1:user}" group => "${3:app}" }
+	File { mode => "0775", owner => "${1:user}" group => "${3:app}" }
 
 
 snippet file
-    file { "${1}":
-        ensure  => present,
-        mode    => "0644",
-        owner   => "${2:user}"
-        group   => "${3:app}"
-        source  => "puppet:///modules/${4:module_name}/${5:file_name}"
-      # content => "Blahblah \n\n",
-      # content => $str,
-      # backup  => main, # if defined 'filebucket'
-      # path    => "/path/to/file"
-    }
+	file { "${1}":
+	    ensure  => present,
+	    mode    => "0644",
+	    owner   => "${2:user}"
+	    group   => "${3:app}"
+	    source  => "puppet:///modules/${4:module_name}/${5:file_name}"
+	  # content => "Blahblah \n\n",
+	  # content => $str,
+	  # backup  => main, # if defined 'filebucket'
+	  # path    => "/path/to/file"
+	  # tag     => "app-app",
+	}
 
 
 snippet File
-    File { mode => "0644", owner => "${1:user}" group => "${3:app}" }
+	File { mode => "0644", owner => "${1:user}" group => "${3:app}" }
 
 
 snippet link
-    file { "${1}":
-        ensure  => link,
-        target  => "${2}",
-        force   => true
-    }
+	file { "${1}":
+	    ensure  => link,
+	    target  => "${2}",
+	    force   => true
+	  # tag     => "app-app",
+	}
 
 
 snippet exec
-    exec { "${1}":
-        command     => "${2}",
-        cwd         => "${3}",
-        path        => [ "/usr/bin", "/bin" ],
-      # creates     => '/path/to/file',
-      # user        => 'user',
-      # group       => 'app',
-      # environment => [ "RAILS_ENV=production", "TAG=v1" ],
-      # logoutput   => on_failure,
-      # onlyif      => "test `du /var/log/messages | cut -f1` -gt 100000"
-      # unless      => "grep root /usr/lib/cron/cron.allow 2>/dev/null"
-      # tries       => 3
-      # timeout     => 60  # seconds
-      # try_sleep   => 15  # seconds
-    }
+	exec { "${1}":
+	    command     => "${2}",
+	    cwd         => "${3}",
+	    path        => [ "/usr/bin", "/bin" ],
+	  # creates     => '/path/to/file',
+	  # user        => 'user',
+	  # group       => 'app',
+	  # environment => [ "RAILS_ENV=production", "TAG=v1" ],
+	  # logoutput   => on_failure,
+	  # onlyif      => "test `du /var/log/messages | cut -f1` -gt 100000"
+	  # unless      => "grep root /usr/lib/cron/cron.allow 2>/dev/null"
+	  # tries       => 3
+	  # timeout     => 60  # seconds
+	  # try_sleep   => 15  # seconds
+	  # tag         => "app-app",
+	}
 
 
 snippet Exec
@@ -100,140 +107,154 @@ snippet Exec
 
 
 snippet package
-    package { "${1:package}":
-        ensure => "present",
-      # ensure => [installed, '1.6.9p17-2'],
-      # require => Package[ openssl ],
-      # source  => "http://exameple.com/pkg.rpm",
-      # provider => :rpm,
-      # provider => :yum,
-      # alias   => "openssh",
-      # description => "OpenSSH",
-    }
+	package { "${1:package}":
+	    ensure      => "present",
+	  # ensure      => [installed, '1.6.9p17-2'],
+	  # require     => Package[ openssl ],
+	  # source      => "http://exameple.com/pkg.rpm",
+	  # provider    => :rpm,
+	  # provider    => :yum,
+	  # alias       => "openssh",
+	  # description => "OpenSSH",
+	  # tag         => "app-app",
+	}
 
 
 snippet Package
-    Package { source  => "http://exameple.com/pkg.rpm" }
+	Package { source  => "http://exameple.com/pkg.rpm" }
 
 
 snippet cron
-    cron { "${1:myjob}":
-        ensure   => present,
-        command  => "${2:/usr/local/bin/myjob.sh -f}",
-        user     => "${3:userapp}",
-        hour     => "23",  # 00-23
-        minute   => "00",  # 00-59
-      # monthday => "01",  # 01-31
-      # month    => "01",  # 01-12
-      # weekday  => "01",  # 00-07 / Sunday,Monday,etc...
-      # environment => [ "RAILS_ENV=production", "TAG=v1" ],
-    }
+	cron { "${1:myjob}":
+	    ensure      => present,
+	    command     => "${2:/usr/local/bin/myjob.sh -f}",
+	    user        => "${3:userapp}",
+	    hour        => "23",  # 00-23
+	    minute      => "00",  # 00-59
+	  # monthday    => "01",  # 01-31
+	  # month       => "01",  # 01-12
+	  # weekday     => "01",  # 00-07 / Sunday,Monday,etc...
+	  # environment => [ "RAILS_ENV=production", "TAG=v1" ],
+	  # tag         => "app-app",
+	}
 
 
 snippet host
-    host { "${1:localhost}":
-        ensure       => present,
-        ip           => '${2:127.0.0.1}'
-        name         => '${1:localhost}'
-      # host_aliases => [ 'localhost.localdomain' ],
-      # comment      => 'localhost only!',
-    }
+	host { "${1:localhost}":
+	    ensure       => present,
+	    ip           => '${2:127.0.0.1}'
+	    name         => '${1:localhost}'
+	  # host_aliases => [ 'localhost.localdomain' ],
+	  # comment      => 'localhost only!',
+	  # tag          => "app-app",
+	}
 
 
 snippet mount
-    mount { "${1:/home}":
-        ensure  => mounted,
-        atboot  => true,
-        device  => "${2:192.168.10.10:/path}",
-        fstype  => "nfs",   # ext3, xfs, nfs
-        options => "defaults,ro,_netdev,noexec,nosuid",
-        dump    => "0",
-        pass    => "0",     # 0:nfs, 2:others
-      # require => [ Package["nfs-utils"], Package["nfs"] ];
-    }
+	mount { "${1:/home}":
+	    ensure  => mounted,
+	    atboot  => true,
+	    device  => "${2:192.168.10.10:/path}",
+	    fstype  => "nfs",   # ext3, xfs, nfs
+	    options => "defaults,ro,_netdev,noexec,nosuid",
+	    dump    => "0",
+	    pass    => "0",     # 0:nfs, 2:others
+	  # require => [ Package["nfs-utils"], Package["nfs"] ];
+	  # tag     => "app-app",
+	}
 
 
 snippet package
-    package { "${1:package_name}":
-        ensure  => installed,
-      # source  => 'http://pkg.com/package.name.rpm',
-      # alias   => "",
-      # description => "",
-    }
+	package { "${1:package_name}":
+	    ensure      => installed,
+	  # source      => 'http://pkg.com/package.name.rpm',
+	  # alias       => "",
+	  # description => "",
+	  # tag         => "app-app",
+	}
 
 snippet service
-    service { "${1:service_name}":
-        enable  => true,
-        ensure  => running,
-      # name    => "${1:service_name}",
-      # pattern => "${1:service_name}",
-      # start   => "",
-      # stop    => "",
-      # restart => "",
-      # status  => "",
-    }
+	service { "${1:service_name}":
+	    enable  => true,
+	    ensure  => running,
+	  # name    => "${1:service_name}",
+	  # pattern => "${1:service_name}",
+	  # start   => "",
+	  # stop    => "",
+	  # restart => "",
+	  # status  => "",
+	  # tag     => "app-app",
+	}
 
 
 snippet tidy
-    tidy { "${1:/tmp}":
-        age  => "${2:1w}",
-      # size => "${3:50m}",  # 50b, 50k, 50m, 50g, 50t
-      # matches => [ "*.temp", "tmpfile?" ],
-      # recurse => true,
-      # rmdirs  => true,
-      # path => "",
-    }
+	tidy { "${1:/tmp}":
+	    age     => "${2:1w}",
+	  # size    => "${3:50m}",  # 50b, 50k, 50m, 50g, 50t
+	  # matches => [ "*.temp", "tmpfile?" ],
+	  # recurse => true,
+	  # rmdirs  => true,
+	  # path    => "",
+	  # tag     => "app-app",
+	}
 
 
 snippet yumrepo
-    yumrepo { "${1:RHEL x}":
-        name     => "${1:RHEL x}",
-        descr    => "RHEL X",
-        baseurl  => "http://example.org/pub/stable/$operatingsystem/$operatingsystemrelease/$architecture",
-        enabled  => true,
-      # gpgcheck => true,
-      # gpgkey   => "",
-      # mirrorlist => [ "", ""],
-      # timeout  => 120, # 120 secondes
-      # proxy    => "",
-      # proxy_username => "",
-      # proxy_password => "",
+	yumrepo { "${1:RHEL x}":
+	    name           => "${1:RHEL x}",
+	    descr          => "RHEL X",
+	    baseurl        => "http://example.org/pub/stable/$operatingsystem/$operatingsystemrelease/$architecture",
+	    enabled        => true,
+	  # gpgcheck       => true,
+	  # gpgkey         => "",
+	  # mirrorlist     => [ "", ""],
+	  # timeout        => 120, # 120 secondes
+	  # proxy          => "",
+	  # proxy_username => "",
+	  # proxy_password => "",
+	  # tag            => "app-app",
 
-    }
+	}
 
 
 snippet node
-    node /${1}/ {
+	node /${1}/ {
 
-        include ${2}
+	    include ${2}
 
-    }
-
-
-snippet class
-    class ${1} {
-
-        $${1:var} = ${2}
-
-    }
+	    # Additional tags:
+	    # tag("app-app")
+	}
 
 
 snippet class
-    class ${1}(${1:param}) {
+	class ${1} {
 
-        $${1:var} = ${2}
+	    $${1:var} = ${2}
 
-    }
+	    # Additional tags:
+	    # tag("app-app")
+	}
+
+
+snippet class
+	class ${1}(${1:param}) {
+
+	    $${1:var} = ${2}
+
+	    # Additional tags:
+	    # tag("app-app")
+	}
 
 
 snippet define
-    define ${1}(${1:param}) {
+	define ${1}(${1:param}) {
 
-        include ${2}
+	    include ${2}
 
-    end
-    }
+	end
+	}
 
 
-# vim:ft=puppet
+# vim:ft=snippet ts=4 sts=4 sw=4 noet nosta list foldlevel=9:
 
