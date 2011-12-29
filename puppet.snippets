@@ -93,7 +93,10 @@ snippet exec
 
 
 snippet Exec
-    Exec { path => '/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin' }
+	Exec {
+	    path      => '/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin'
+	    logoutput => on_failure,
+	}
 
 
 snippet package
