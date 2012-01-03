@@ -61,9 +61,11 @@ snippet file
 	    source  => "puppet:///modules/${4:module_name}/${5:file_name}"
 	  # content => "Blahblah \n\n",
 	  # content => $str,
+	  # content => template( "puppet:///modules/${4:module_name}/${5:file_name}" )
 	  # backup  => main, # if defined 'filebucket'
 	  # path    => "/path/to/file"
 	  # tag     => "app-app",
+	  # audit   => "all",
 	}
 
 
