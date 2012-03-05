@@ -1,4 +1,4 @@
-#
+
 # Puppet
 # Reference:
 #     http://docs.puppetlabs.com/references/stable/type.html
@@ -44,10 +44,10 @@ snippet ssh
 snippet dir
 	file { "${1}":
 	    ensure  => directory,
+	    path    => "",
 	    mode    => "0775",
 	    owner   => "${2}"
 	    group   => "${3}"
-	  # path    => "",
 	    recurse => false,
 	  # tag     => "app-app",
 	}
@@ -60,15 +60,15 @@ snippet Dir
 snippet file
 	file { "${1}":
 	    ensure  => present,
-	    mode    => "0644",
+	    path    => "/path/to/file"
 	    owner   => "${2:user}"
 	    group   => "${3:app}"
-	    source  => "puppet:///modules/${4:module_name}/${5:file_name}"
+	    mode    => "0644",
+	    source  => "${4:module_name}/${5:file_name}"
+	  # content => template( "puppet:///modules/${4:module_name}/${5:file_name}" )
 	  # content => "Blahblah \n\n",
 	  # content => $str,
-	  # content => template( "puppet:///modules/${4:module_name}/${5:file_name}" )
 	  # backup  => main, # if defined 'filebucket'
-	  # path    => "/path/to/file"
 	  # tag     => "app-app",
 	  # audit   => "all",
 	}
@@ -91,14 +91,14 @@ snippet exec
 	exec { "${1}":
 	    command     => "${2}",
 	    cwd         => "${3}",
+	    creates     => '/path/to/file',
 	    path        => [ "/usr/bin", "/bin" ],
-	  # creates     => '/path/to/file',
+	    logoutput   => on_failure,
 	  # user        => 'user',
 	  # group       => 'app',
 	  # environment => [ "RAILS_ENV=production", "TAG=v1" ],
-	  # logoutput   => on_failure,
-	  # onlyif      => "test `du /var/log/messages | cut -f1` -gt 100000"
-	  # unless      => "grep root /usr/lib/cron/cron.allow 2>/dev/null"
+	 #  onlyif      => "test `du /var/log/messages | cut -f1` -gt 100000"
+	 #  unless      => "grep root /usr/lib/cron/cron.allow 2>/dev/null"
 	  # tries       => 3
 	  # timeout     => 60  # seconds
 	  # try_sleep   => 15  # seconds
@@ -171,20 +171,11 @@ snippet mount
 	}
 
 
-snippet package
-	package { "${1:package_name}":
-	    ensure      => installed,
-	  # source      => 'http://pkg.com/package.name.rpm',
-	  # alias       => "",
-	  # description => "",
-	  # tag         => "app-app",
-	}
-
 snippet service
-	service { "${1:service_name}":
-	    enable  => true,
+	service { "${1:service}":
+	    name    => "${2:service_name}",
 	    ensure  => running,
-	  # name    => "${1:service_name}",
+	    enable  => true,
 	  # pattern => "${1:service_name}",
 	  # start   => "",
 	  # stop    => "",
