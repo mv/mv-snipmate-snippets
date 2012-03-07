@@ -9,6 +9,10 @@
 # 2011/11
 #
 
+#############################################################################
+###
+### Types
+###
 
 snippet group
 	group { "${1}":
@@ -253,6 +257,105 @@ snippet define
 	end
 	}
 
+
+
+#############################################################################
+###
+### Built-ins
+###
+
+snippet alert
+	alert("${1:string}")
+
+snippet crit
+	crit("${1:string}")
+
+snippet debug
+	debug("${1:string}")
+
+snippet defined
+	defined(${1:resource})
+
+snippet emerg
+	emerg("${1:string}")
+
+snippet err
+	err("${1:string}")
+
+snippet extlookup
+	extlookup("${1:key}", "${2:default value}")
+
+snippet extlookup Simple extlookup
+	extlookup("${1:variable}")${2}
+
+snippet extlookup Extlookup with defaults
+	extlookup("${1:variable}", "${2:default}")${3}
+
+snippet extlookup Extlookup with defaults and custom data file
+	extlookup("${1:variable}", "${2:default}", "${3:data source}")${4}
+
+snippet fail
+	fail("${1:string}")
+
+snippet fqdn
+	fqdn_rand(${1:range})
+
+snippet generate
+	generate("${1:command}")
+
+snippet inc
+	include ${1:classname}
+
+snippet info
+	info("${1:string}")
+
+snippet inline
+	inline_template("${1:string}")
+
+snippet md5
+	md5("${1:string}")
+
+snippet notice
+	notice("${1:string}")
+
+snippet realize
+	realize(${1:string})
+
+snippet regsubst
+	regsubst($${1:target}, /${2:regexp}/, "${3:replacement}")
+
+snippet require
+	require ${1:classname}
+
+snippet search
+	search(${1:namespace})
+
+snippet sha1
+	sha1(${1:string})
+
+snippet quote
+	shellquote(${1:args})
+
+snippet split
+	split($${1:string}, "${2:regexp}")
+
+snippet sprintf
+	sprintf("${1:string}", ${2:args})
+
+snippet tag
+	tag("${1:string}")
+
+snippet tagged
+	tagged("${1:string}")
+
+snippet template
+	template("${1:path}")
+
+snippet versioncmp
+	versioncmp("${1:a}", "${2:b}")
+
+snippet warn
+	warning("${1:string}")
 
 # vim:ft=snippet.puppet ts=4 sts=4 sw=4 noet nosta list foldlevel=9:
 
